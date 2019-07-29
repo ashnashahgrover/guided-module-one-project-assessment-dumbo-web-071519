@@ -17,7 +17,7 @@ sleipnir = User.create(username: "sleipnir", password: "huggin")
 ##### HACK
 # heading, content, user_id
 long_int = Hack.create( heading: "Long Integers", 
-                        content: " # Writing large Integers \n \n
+                        content: " # Writing large Integers \n
                         123_456_789 \n
                         # => 123456789")
 
