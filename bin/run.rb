@@ -1,5 +1,6 @@
 require_relative '../config/environment'
 require "pry"
+require "tty-prompt"
 #create response
 #reading hack
 #like/dislike
@@ -13,8 +14,12 @@ require "pry"
 
 
 exit = false
-
 while(!exit)
+
+cli = Interface.new
+active_user = cli.welcome
+cli.user = active_user
+cli.choices 
 
 
 
