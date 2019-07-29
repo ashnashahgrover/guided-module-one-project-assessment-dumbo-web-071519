@@ -1,24 +1,30 @@
 require_relative '../config/environment'
 require "pry"
-#create response
-#reading hack
-#like/dislike
-#create account
-#delete comment
-#delete hack
-#view comments by user, liked, & add like
-#random hack gen
-# *optional* search engine
+cli = Interface.new
 
-
+#create variable that will be utilized by TTY prompt
+#prompt = TTY::Prompt.new
 
 exit = false
+while(!exit)  ##### start of program loop
+    user_object = cli.welcome
 
-while(!exit)
+    #we can probably change this once the welcome always returns a valid object
+    cli.user = user_object
+
+
+
+
+
+
 
 
 
 binding.pry
+#### prompt to exit program
+#exit = prompt.yes?('Would you like to exit?')
+exit = true
+
 end
 
 puts "hello world"
