@@ -2,12 +2,12 @@ require_relative '../config/environment'
 require "pry"
 
 
-cli = Interface.new
-active_user = cli.welcome
-cli.user = active_user
-cli.choices 
+CLI = Interface.new
+active_user = CLI.welcome
+CLI.user = active_user
+CLI.choices
 
 binding.pry
-  
+
 
 puts "hello world"

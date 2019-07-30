@@ -6,7 +6,7 @@ belongs_to :writer
 #belongs_to :writer add writer_id column to user?
 
 
-  
+
 
   def self.login
 
@@ -28,8 +28,7 @@ belongs_to :writer
         return username
         binding.pry
       else
-        password == nil
-        "Wrong Password. Please try again."
+        puts "Wrong Password. Please try again."
       end
     end
 
@@ -58,10 +57,11 @@ belongs_to :writer
     puts "Write your hack below:"
     content = gets.chomp
     new_hack = Hack.create(heading: heading, content: content, writer_id: self.writer_id)
+    puts "Thank you for your submission."
+    CLI.choices
   end
 
   def view_or_edit_written
-    system "clear"
     puts "Here are the Hacks you've written:"
     hacks = self.writer.hacks.pluck("Heading")
     selection = TTY::Prompt.new.select("Select one of the following", hacks)
@@ -69,6 +69,7 @@ belongs_to :writer
     puts Hack.find_by("heading = ?", selection).content
     #should ask if you want to edit your selection
     #also aesthetically we should figure out how to get rid of the DEBUG statements
+    puts "Would you like to edit your content?"
   end
 
   def edit?
