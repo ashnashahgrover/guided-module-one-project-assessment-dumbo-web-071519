@@ -1,6 +1,7 @@
 Hack.destroy_all
 Response.destroy_all
 User.destroy_all
+Writer.destroy_all
 
 
 ##### USER
@@ -10,29 +11,30 @@ martin = User.create(username: "cancer", password: "password")
 franz =  User.create(username: "kafka", password: "gun")
 jeremy = User.create(username: "bentham", password: "utility")
 sleipnir = User.create(username: "sleipnir", password: "huggin")
+ashna = User.create(username: "ashna", password: "ashna")
 
 
 
 
 ##### HACK
 # heading, content, user_id
-long_int = Hack.create( heading: "Long Integers", 
+long_int = Hack.create( heading: "Long Integers",
                         content: " # Writing large Integers \n
                         123_456_789 \n
                         # => 123456789")
 
-each_slice = Hack.create(  
-                        heading: "Each Slice", 
+each_slice = Hack.create(
+                        heading: "Each Slice",
                         content: "# each_slice \n
 
                         (1..10).each_slice(3) {|a| p a} \n
                         # => [1, 2, 3] \n
-                        # => [4, 5, 6]")                   
+                        # => [4, 5, 6]")
 
-neg_array = Hack.create(    
+neg_array = Hack.create(
                         heading: "Negative Array Indicies",
                         content: "array = [:a, :b, :c, :d, :e] \n
-                        
+
                         array[-1] # => :e \n
                         array[0..-3] # => [:a, :b, :c]")
 
@@ -43,7 +45,7 @@ eval_symbol_string = Hack.create(
 
 meth_incep = Hack.create(
                         heading: "Method Inception",
-                        content: 
+                        content:
                         "# Passing a method taking a block to another method or object \n
                         %w[Hello World].each &method(:puts) \n
                         # Hello World"
@@ -67,8 +69,3 @@ path_name = Hack.create(
 
 ##### COMMENT
 #user_id, hack_id, likes, comment
-
-
-
-
-
