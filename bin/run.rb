@@ -2,19 +2,22 @@ require_relative '../config/environment'
 require "pry"
 
 
-exit = false
+program_exit = false
 
-while(!exit)
+while(!program_exit)
 
   cli = Interface.new
   active_user = cli.welcome
   cli.user = active_user
+
   cli.choices 
 
+  #binding.pry
+  
 
-  binding.pry
-
-  exit = true
+#temp exit
+  program_exit = cli.i_am_done
+  program_exit = true
 
 end
 

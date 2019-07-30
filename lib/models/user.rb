@@ -3,6 +3,8 @@ class User <ActiveRecord::Base
 has_many :responses
 has_many :hacks, through: :responses
 
+  
+
   def self.login
 
     username = nil
