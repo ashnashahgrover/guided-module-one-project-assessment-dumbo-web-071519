@@ -6,6 +6,8 @@ belongs_to :writer
 #belongs_to :writer add writer_id column to user?
 
 
+  
+
   def self.login
 
     username = nil
