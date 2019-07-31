@@ -17,11 +17,12 @@ ashna = User.create(username: "ashna", password: "ashna")
 
 
 ##### HACK
-# heading, content, user_id
+# heading, content, writer_id
 long_int = Hack.create( heading: "Long Integers",
                         content: " # Writing large Integers \n
                         123_456_789 \n
-                        # => 123456789")
+                        # => 123456789"
+                      )
 
 each_slice = Hack.create(
                         heading: "Each Slice",
