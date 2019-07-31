@@ -33,7 +33,7 @@ class Interface
         random = Hack.rand_hack()
         prompt.select("Generate another random hack?") do |menu|
             menu.choice "Yes?", ->{view_random()}
-            menu.choice "No", ->{vote_respond(random)}
+            menu.choice "No, Respond or Exit", ->{vote_respond(random)}
         end
     end
 
@@ -54,7 +54,7 @@ class Interface
             menu.choice "👍 Up-vote this hack.", ->{self.up_vote(chosen_hack)}
             menu.choice "View a different filter", ->{self.view_by}
             menu.choice "Main Menu", ->{self.choices}
-            menu.choice "View Comments", ->{}
+            menu.choice "View Comments", ->{Response.view_comments(chosen_hack)}
         end
         vote_respond(chosen_hack)
     end

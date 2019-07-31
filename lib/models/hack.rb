@@ -27,4 +27,10 @@ class Hack <ActiveRecord::Base
     selection
   end
 
+  def self.delete_hack(selection, user)
+    self.destroy(selection.id)
+    puts "The Hack has been deleted"
+    user.view_or_edit_written
+  end
+
 end

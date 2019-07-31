@@ -18,16 +18,21 @@ class Response <ActiveRecord::Base
         end
     end
 
-    def self.write_response(chosen_hack)
-      puts "Please write comment below:"
-      comment = gets.chomp
-      Response.create(hack_id: chosen_hack.id, user_id: self.user.id, comment: comment)
-      puts "Thank you for your comment:"
-      puts "Select an option below:"
-    end
-
-    def self.up_vote(chosen_hack)
-      Response.create(hack_id: chosen_hack.id, user_id: self.user.id, likes: 1)
+    def self.view_comments(hack)
+      responses = self.all.where("hack_id = ?", hack.id)
+      if responses.empty?
+        puts "There are no comments for this hack."
+        puts "Press <ENTER> to continue"
+        gets
+      else
+        responses.each do |response|
+          puts response.comment
+            TTY::Prompt.new.select("") do |menu|
+            menu.choice "Press Enter to View next", ->{}
+            menu.choice "Go to back to Menu", ->{return hack}
+            end
+        end
+      end
     end
 
 end

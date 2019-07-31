@@ -23,6 +23,7 @@ belongs_to :writer
     password = nil
     while password != username.password
       puts "Please enter password"
+      #make this mask
       password = gets.chomp
       if password == username.password
         return username
@@ -65,6 +66,12 @@ belongs_to :writer
     if self.writer
       puts "Here are the Hacks you've written:"
       hacks = self.writer.hacks.pluck("Heading")
+      if hacks.empty?
+        puts "All your Hacks have been deleted"
+        puts "Press <ENTER> to Continue"
+        gets
+        CLI.choices
+      end
       selection = TTY::Prompt.new.select("Select one of the following", hacks)
       selection = Hack.find_by("heading = ?", selection)
       puts selection.heading
@@ -80,6 +87,7 @@ belongs_to :writer
       end
       TTY::Prompt.new.select("") do |menu|
         menu.choice "Edit Content", ->{self.edit_content(selection)}
+        menu.choice "Delete This Hack", ->{Hack.delete_hack(selection, self)}
         menu.choice "Return to Main Menu", ->{CLI.choices}
       end
     else
@@ -91,13 +99,19 @@ belongs_to :writer
   end
 
   def display_likes
-    likes = Response.all.where({user_id: 6, likes: true})
+    likes = Response.all.where({user_id: self.id, likes: true})
     headings = likes.map {|response| response.hack.heading}.uniq
-    selection = TTY::Prompt.new.select("Select one of the following", headings)
-    selection = Hack.find_by("heading = ?", selection)
-    puts selection.heading
-    puts selection.content
-    return selection
+    if !headings.empty?
+      selection = TTY::Prompt.new.select("Select one of the following", headings)
+      selection = Hack.find_by("heading = ?", selection)
+      puts selection.heading
+      puts selection.content
+      return selection
+    else
+      puts "You have not liked any hacks yet. Press <ENTER> to continue"
+      gets
+      CLI.choices
+    end
   end
 
 end
