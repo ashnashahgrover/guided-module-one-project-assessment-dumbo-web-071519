@@ -28,39 +28,47 @@ class Interface
         end
     end
 
-    ## MOVE TO HACK.rb file before next merge
-    ##### view random hack #####
     def view_random
         system "clear"
-        random_hack = Hack.rand_hack()
-        Hack.display_hack(random_hack)
-        vote_respond()
-        prompt.select("Would you like another random hack?") do |menu|
+        random = Hack.rand_hack()
+        prompt.select("Generate another random hack?") do |menu|
             menu.choice "Yes?", ->{view_random()}
-            menu.choice "No!!!!", ->{choices}
+            menu.choice "No", ->{vote_respond(random)}
         end
     end
 
-    ##### view hacks by filter All, Liked, Own ######
     def view_by
         system "clear"
-        # will return nil for all, or array of hack ids
-        prompt.select("Please select a filter?") do |menu|
-            menu.choice "View All Hacks", ->{Hack.display_all_hacks()}
-            menu.choice "Hacks I Like", ->{Response.display_my_likes(self.user.id)}
+        #return value of any of these methods should always be a SINGLE hack
+        chosen_hack = prompt.select("Please select a filter?") do |menu|
+            menu.choice "View All Hacks", ->{Hack.view_all}
+            menu.choice "Hacks I Like", ->{self.user.display_likes}
             menu.choice "View My Hacks", ->{self.user.view_or_edit_written}
         end
-        vote_respond()
+        vote_respond(chosen_hack)
     end
 
-    ##### vote & respond prompt
-    def vote_respond()
+    def vote_respond(chosen_hack)
         prompt.select("") do |menu|
-            menu.choice "Write a response.", ->{Response.write_response(self, hack_id)}
-            menu.choice "👍 Up-vote this hack.", ->{}
+            menu.choice "Write a comment.", ->{self.write_response(chosen_hack)}
+            menu.choice "👍 Up-vote this hack.", ->{self.up_vote(chosen_hack)}
             menu.choice "View a different filter", ->{self.view_by}
             menu.choice "Main Menu", ->{self.choices}
+            menu.choice "View Comments", ->{}
         end
+        vote_respond(chosen_hack)
+    end
+
+    def write_response(chosen_hack)
+      puts "Please write comment below:"
+      comment = gets.chomp.to_s
+      Response.create(hack_id: chosen_hack.id, user_id: self.user.id, comment: comment)
+      puts "Thank you for your comment:"
+      puts "Select an option below:"
+    end
+
+    def up_vote(chosen_hack)
+      Response.create(hack_id: chosen_hack.id, user_id: self.user.id, likes: 1)
     end
 
 end

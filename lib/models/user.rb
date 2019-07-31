@@ -13,7 +13,7 @@ belongs_to :writer
     username = nil
     while !username
       puts "Please enter username:"
-      username = gets.chomp
+      username = gets.chomp.to_s
       username = User.find_by("username = ?", username)
       if username == nil
         puts "Username not found. Please try again."
@@ -62,20 +62,42 @@ belongs_to :writer
   end
 
   def view_or_edit_written
-    puts "Here are the Hacks you've written:"
-    hacks = self.writer.hacks.pluck("Heading")
-    selection = TTY::Prompt.new.select("Select one of the following", hacks)
-    puts selection
-    puts Hack.find_by("heading = ?", selection).content
-    #should ask if you want to edit your selection
-    #also aesthetically we should figure out how to get rid of the DEBUG statements
-    puts "Would you like to edit your content?"
+    if self.writer
+      puts "Here are the Hacks you've written:"
+      hacks = self.writer.hacks.pluck("Heading")
+      selection = TTY::Prompt.new.select("Select one of the following", hacks)
+      selection = Hack.find_by("heading = ?", selection)
+      puts selection.heading
+      puts selection.content
+      #should ask if you want to edit your selection
+      #also aesthetically we should figure out how to get rid of the DEBUG statements
+      def edit_content(hack)
+          puts "Type Modified Content Here:"
+          new_content = gets.chomp
+          hack.content = new_content
+          hack.save
+          hack
+      end
+      TTY::Prompt.new.select("") do |menu|
+        menu.choice "Edit Content", ->{self.edit_content(selection)}
+        menu.choice "Return to Main Menu", ->{CLI.choices}
+      end
+    else
+      puts "You haven't written any hacks yet."
+      puts "Press <ENTER> to Continue"
+      gets
+      CLI.choices
+    end
   end
 
-  def edit?
-  end
-
-  def edit
+  def display_likes
+    likes = Response.all.where({user_id: 6, likes: true})
+    headings = likes.map {|response| response.hack.heading}.uniq
+    selection = TTY::Prompt.new.select("Select one of the following", headings)
+    selection = Hack.find_by("heading = ?", selection)
+    puts selection.heading
+    puts selection.content
+    return selection
   end
 
 end
