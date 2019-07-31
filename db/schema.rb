@@ -10,29 +10,6 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_30_141220) do
-
-  create_table "hacks", force: :cascade do |t|
-    t.string "heading"
-    t.string "content"
-    t.integer "writer_id"
-  end
-
-  create_table "responses", force: :cascade do |t|
-    t.integer "user_id"
-    t.integer "hack_id"
-    t.boolean "likes"
-    t.string "comment"
-  end
-
-  create_table "users", force: :cascade do |t|
-    t.string "username"
-    t.string "password"
-    t.string "writer_id"
-  end
-
-  create_table "writers", force: :cascade do |t|
-    t.integer "user_id"
-  end
+ActiveRecord::Schema.define(version: 0) do
 
 end
